@@ -1,0 +1,69 @@
+﻿<Window x:Class="UndoRedoExtensions.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UndoRedoExtensions"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Rows}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <!-- combo1: Start -->
+                            <ComboBox Width="75" Margin="10"
+                                  ItemsSource="{Binding DataContext.TimeOptions,
+                                        RelativeSource={RelativeSource AncestorType=Window}}"
+                                  SelectedItem="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding StringFormat={}{0:hh\\:mm}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <!-- combo2: End -->
+                            <ComboBox Width="75" Margin="10"
+                                  ItemsSource="{Binding DataContext.TimeOptions,
+                                        RelativeSource={RelativeSource AncestorType=Window}}"
+                                  SelectedItem="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding StringFormat={}{0:hh\\:mm}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <TextBox Width="200" Margin="10"
+                                   Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        <!-- 右：コピペ用のTextBlock＋コピー操作 -->
+        <DockPanel Grid.Column="1" Margin="10">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,8">
+                <TextBlock Text="コピペ用一覧" FontWeight="Bold" VerticalAlignment="Center"/>
+                <Button Content="すべてコピー"
+                        Margin="12,0,0,0" Padding="10,4"
+                        Click="CopyAll_Click"/>
+            </StackPanel>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <!-- TextBlock（選択はできないが常に最新を表示） -->
+                <TextBlock Text="{Binding SummaryText}"
+                           FontFamily="Consolas"
+                           xml:space="preserve" FontSize="20"/>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Window>

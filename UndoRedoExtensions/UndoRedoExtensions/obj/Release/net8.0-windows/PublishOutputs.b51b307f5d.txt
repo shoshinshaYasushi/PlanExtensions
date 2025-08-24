@@ -1,0 +1,5 @@
+C:\visual studio\UndoRedoExtensions.exe
+C:\visual studio\UndoRedoExtensions.dll
+C:\visual studio\UndoRedoExtensions.deps.json
+C:\visual studio\UndoRedoExtensions.runtimeconfig.json
+C:\visual studio\UndoRedoExtensions.pdb
