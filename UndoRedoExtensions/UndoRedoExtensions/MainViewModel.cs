@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -48,12 +49,46 @@ namespace UndoRedoExtensions
             }
         }
 
-        private string _summaryText = string.Empty;
+        public string _summaryText = string.Empty;
         public string SummaryText
         {
             get => _summaryText;
-            private set { if (_summaryText != value) { _summaryText = value; OnPropertyChanged(); } }
+            set
+            {
+                if (_summaryText != value)
+                {
+                    _summaryText = value;
+                    OnPropertyChanged();
+                    IsSummaryEmpty = string.IsNullOrWhiteSpace(_summaryText);
+
+                    if (!_isBuildingSummary)
+                    {
+                        ApplySummaryToRows(_summaryText);
+                    }
+                }
+            }
         }
+
+        // 追加：循環防止フラグ
+        private bool _isBuildingSummary = false; // Rows -> SummaryText へまとめ直し中か？
+
+        public ObservableCollection<RowData> CompressedRows { get; } = new();
+
+        private bool _isSummaryEmpty = true;
+        public bool IsSummaryEmpty
+        {
+            get => _isSummaryEmpty;
+            
+            set
+            {
+                if (_isSummaryEmpty != value)
+                {
+                    _isSummaryEmpty = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
 
         public MainViewModel()
         {
@@ -161,11 +196,177 @@ namespace UndoRedoExtensions
 
         private void UpdateSummary()
         {
-            SummaryText = string.Join(Environment.NewLine,
-                Rows.Select(r =>
-                    $"{r.Start:hh\\:mm}-{r.End:hh\\:mm} {(string.IsNullOrWhiteSpace(r.Text) ? string.Empty : $"{r.Text}")}"
-                )
-            );
+            _isBuildingSummary = true;
+            try
+            {
+                var sb = new StringBuilder();
+
+                TimeSpan? blockStart = null;
+                TimeSpan? blockEnd = null;
+                string? blockText = null;
+
+                void FlushBlock()
+                {
+                    if (blockStart.HasValue && blockEnd.HasValue && !string.IsNullOrWhiteSpace(blockText))
+                    {
+                        sb.AppendLine($"{blockStart:hh\\:mm}-{blockEnd:hh\\:mm} {blockText}");
+                    }
+                    blockStart = blockEnd = null;
+                    blockText = null;
+                }
+
+                foreach (var r in Rows)
+                {
+                    var t = string.IsNullOrWhiteSpace(r.Text) ? null : r.Text;
+
+                    if (t == null)
+                    {
+                        // テキストなし → 進行中ブロックを確定
+                        FlushBlock();
+                        continue;
+                    }
+
+                    if (blockText == null)
+                    {
+                        // 新規ブロック開始
+                        blockText = t;
+                        blockStart = r.Start;
+                        blockEnd = r.End;
+                    }
+                    else if (t == blockText && blockEnd == r.Start)
+                    {
+                        // 同じテキストが連続しているのでブロック拡張
+                        blockEnd = r.End;
+                    }
+                    else
+                    {
+                        // テキストが変わった → 既存ブロック確定、新規開始
+                        FlushBlock();
+                        blockText = t;
+                        blockStart = r.Start;
+                        blockEnd = r.End;
+                    }
+                }
+                // 最後のブロックを確定
+                FlushBlock();
+
+                SummaryText = sb.ToString();
+                UpdateCompressedRows();
+            }
+            finally
+            {
+                _isBuildingSummary = false;
+            }
+        }
+
+        private void ApplySummaryToRows(string summary)
+        {
+            // 事前に必要な範囲を計算
+            var rx = new Regex(@"^\s*(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})\s*(.*)$");
+            var lines = summary.Replace("\r\n", "\n").Split('\n');
+
+            TimeSpan? minStart = null;
+            TimeSpan? maxEnd = null;
+
+            var parsed = new List<(TimeSpan start, TimeSpan end, string text)>();
+            foreach (var line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                var m = rx.Match(line);
+                if (!m.Success) continue;
+
+                if (!int.TryParse(m.Groups[1].Value, out var sh)) continue;
+                if (!int.TryParse(m.Groups[2].Value, out var sm)) continue;
+                if (!int.TryParse(m.Groups[3].Value, out var eh)) continue;
+                if (!int.TryParse(m.Groups[4].Value, out var em)) continue;
+
+                var content = (m.Groups[5].Value ?? string.Empty).Trim();
+
+                var s = Snap(new TimeSpan(sh, sm, 0));
+                var e = Snap(new TimeSpan(eh, em, 0));
+                if (e <= s) continue;
+
+                parsed.Add((s, e, content));
+
+                minStart = !minStart.HasValue ? s : (s < minStart ? s : minStart);
+                maxEnd = !maxEnd.HasValue ? e : (e > maxEnd ? e : maxEnd);
+            }
+
+            // 入力が空/不正なら、左はクリアだけして終了
+            if (parsed.Count == 0)
+            {
+                // Summaryが空/不正 → 30分刻みに戻す
+                RebuildRowsFromWindow();  // 既存のデフォルト構築:contentReference[oaicite:1]{index=1}
+                UpdateSummary();
+                return;
+            }
+
+            // 窓を必要に応じて拡張（行を再生成）※ WorkingStart/End は既存仕様で再構築します:contentReference[oaicite:3]{index=3}
+            if (minStart.HasValue && minStart.Value < WorkingStart) WorkingStart = minStart.Value;
+            if (maxEnd.HasValue && maxEnd.Value > WorkingEnd) WorkingEnd = maxEnd.Value;
+
+            // 既存行の購読解除＆クリア
+            foreach (var r in Rows) r.PropertyChanged -= Row_PropertyChanged;
+            Rows.Clear();
+
+            // 区間ごとに1行ずつ作成（= 30分刻みには展開しない）
+            foreach (var (s, e, content) in parsed)
+            {
+                var row = new RowData { Start = s, End = e, Text = content }; // RowData は INotifyPropertyChanged 済:contentReference[oaicite:2]{index=2}
+                row.PropertyChanged += Row_PropertyChanged;
+                Rows.Add(row);
+            }
+
+            UpdateSummary(); // 左→右のまとめを作る（後述の「圧縮」版）
+        }
+
+        private void UpdateCompressedRows()
+        {
+            CompressedRows.Clear();
+
+            TimeSpan? blockStart = null;
+            TimeSpan? blockEnd = null;
+            string? blockText = null;
+
+            void FlushBlock()
+            {
+                if (blockStart.HasValue && blockEnd.HasValue && !string.IsNullOrWhiteSpace(blockText))
+                {
+                    CompressedRows.Add(new RowData { Start = blockStart.Value, End = blockEnd.Value, Text = blockText });
+                }
+                blockStart = blockEnd = null;
+                blockText = null;
+            }
+
+            foreach (var r in Rows)
+            {
+                var t = string.IsNullOrWhiteSpace(r.Text) ? null : r.Text;
+
+                if (t == null)
+                {
+                    FlushBlock();
+                    continue;
+                }
+
+                if (blockText == null)
+                {
+                    blockText = t;
+                    blockStart = r.Start;
+                    blockEnd = r.End;
+                }
+                else if (t == blockText && blockEnd == r.Start)
+                {
+                    blockEnd = r.End;
+                }
+                else
+                {
+                    FlushBlock();
+                    blockText = t;
+                    blockStart = r.Start;
+                    blockEnd = r.End;
+                }
+            }
+            FlushBlock();
         }
 
         // クリップボードにコピー（TextBlockは選択不可のため）

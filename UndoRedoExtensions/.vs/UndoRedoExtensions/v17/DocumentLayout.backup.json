@@ -7,16 +7,24 @@
       "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\booltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\booltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\rowdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\rowdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|solutionrelative:undoredoextensions\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F048DE4B-8D24-4ABF-ABB8-F4171ED9621E}|UndoRedoExtensions\\UndoRedoExtensions.csproj|c:\\visual studio\\undoredoextensions\\undoredoextensions\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,11 +38,48 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\App.xaml",
+              "RelativeDocumentMoniker": "UndoRedoExtensions\\App.xaml",
+              "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\App.xaml",
+              "RelativeToolTip": "UndoRedoExtensions\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-25T11:53:53.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BoolToVisibilityConverter.cs",
+              "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\BoolToVisibilityConverter.cs",
+              "RelativeDocumentMoniker": "UndoRedoExtensions\\BoolToVisibilityConverter.cs",
+              "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\BoolToVisibilityConverter.cs",
+              "RelativeToolTip": "UndoRedoExtensions\\BoolToVisibilityConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T11:51:34.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "UndoRedoExtensions\\MainWindow.xaml",
+              "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainWindow.xaml",
+              "RelativeToolTip": "UndoRedoExtensions\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-23T04:49:17.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "UndoRedoExtensions\\AssemblyInfo.cs",
@@ -47,13 +92,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "RowData.cs",
               "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\RowData.cs",
               "RelativeDocumentMoniker": "UndoRedoExtensions\\RowData.cs",
               "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\RowData.cs",
               "RelativeToolTip": "UndoRedoExtensions\\RowData.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAYwDoAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAawCoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-23T11:01:03.317Z",
               "EditorCaption": ""
@@ -66,32 +111,20 @@
               "RelativeDocumentMoniker": "UndoRedoExtensions\\MainViewModel.cs",
               "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainViewModel.cs",
               "RelativeToolTip": "UndoRedoExtensions\\MainViewModel.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAmwE4AAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAawEEAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-23T05:34:27.767Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "UndoRedoExtensions\\MainWindow.xaml",
-              "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainWindow.xaml",
-              "RelativeToolTip": "UndoRedoExtensions\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-08-23T04:49:17.574Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "UndoRedoExtensions\\MainWindow.xaml.cs",
               "ToolTip": "C:\\visual studio\\UndoRedoExtensions\\UndoRedoExtensions\\MainWindow.xaml.cs",
               "RelativeToolTip": "UndoRedoExtensions\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAYwBsAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-23T04:49:02.166Z",
               "EditorCaption": ""

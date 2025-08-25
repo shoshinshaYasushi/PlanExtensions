@@ -18,3 +18,5 @@ C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\obj\Debug\net8.0-windows\
 C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\obj\Debug\net8.0-windows\UndoRedoExtensions.pdb
 C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\obj\Debug\net8.0-windows\UndoRedoExtensions.genruntimeconfig.cache
 C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\obj\Debug\net8.0-windows\ref\UndoRedoExtensions.dll
+C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\obj\Debug\net8.0-windows\App.baml

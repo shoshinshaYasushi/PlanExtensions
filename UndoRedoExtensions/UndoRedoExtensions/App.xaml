@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:UndoRedoExtensions"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
     </Application.Resources>
 </Application>

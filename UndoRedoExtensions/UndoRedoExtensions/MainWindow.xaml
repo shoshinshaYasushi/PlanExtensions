@@ -18,7 +18,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <!-- combo1: Start -->
-                            <ComboBox Width="75" Margin="10"
+                            <ComboBox Width="75" Margin="10" IsTabStop="False"
                                   ItemsSource="{Binding DataContext.TimeOptions,
                                         RelativeSource={RelativeSource AncestorType=Window}}"
                                   SelectedItem="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -30,7 +30,7 @@
                             </ComboBox>
 
                             <!-- combo2: End -->
-                            <ComboBox Width="75" Margin="10"
+                            <ComboBox Width="75" Margin="10" IsTabStop="False"
                                   ItemsSource="{Binding DataContext.TimeOptions,
                                         RelativeSource={RelativeSource AncestorType=Window}}"
                                   SelectedItem="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -60,9 +60,13 @@
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <!-- TextBlock（選択はできないが常に最新を表示） -->
-                <TextBlock Text="{Binding SummaryText}"
+                <TextBox Text="{Binding SummaryText, UpdateSourceTrigger=PropertyChanged}"
                            FontFamily="Consolas"
-                           xml:space="preserve" FontSize="20"/>
+                           xml:space="preserve" FontSize="20"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Disabled"
+                         TextWrapping="Wrap"/>  
             </ScrollViewer>
         </DockPanel>
     </Grid>
