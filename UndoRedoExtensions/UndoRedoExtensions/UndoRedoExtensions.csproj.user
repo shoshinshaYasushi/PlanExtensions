@@ -3,4 +3,9 @@
   <PropertyGroup>
     <_LastSelectedProfileId>C:\visual studio\UndoRedoExtensions\UndoRedoExtensions\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Window1.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

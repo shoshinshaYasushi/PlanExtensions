@@ -19,7 +19,7 @@
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                             <!-- combo1: Start -->
                             <ComboBox Width="75" Margin="10" IsTabStop="False"
-                                  ItemsSource="{Binding DataContext.TimeOptions,
+                                  ItemsSource="{Binding DataContext.WorkingTimeOptions,
                                         RelativeSource={RelativeSource AncestorType=Window}}"
                                   SelectedItem="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBox.ItemTemplate>
@@ -31,7 +31,7 @@
 
                             <!-- combo2: End -->
                             <ComboBox Width="75" Margin="10" IsTabStop="False"
-                                  ItemsSource="{Binding DataContext.TimeOptions,
+                                  ItemsSource="{Binding DataContext.WorkingTimeOptions,
                                         RelativeSource={RelativeSource AncestorType=Window}}"
                                   SelectedItem="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBox.ItemTemplate>
@@ -44,6 +44,11 @@
                             <TextBox Width="200" Margin="10"
                                    Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="データを挿入する" Click="InsertRowMenu_Click"/>
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
                         </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

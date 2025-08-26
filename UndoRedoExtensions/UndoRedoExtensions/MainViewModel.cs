@@ -15,9 +15,9 @@ namespace UndoRedoExtensions
     public class MainViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<RowData> Rows { get; } = new();
-        public List<TimeSpan> TimeOptions { get; } = new();
+        public List<TimeSpan> TimeOptions { get; } = new();         // 00:00～24:00 まで 30 分刻み
 
-        private static readonly TimeSpan Step = TimeSpan.FromMinutes(30);
+        private static readonly TimeSpan Step = TimeSpan.FromMinutes(15);
 
         private TimeSpan _workingStart = new(8, 0, 0);  // 初期 8:00
         public TimeSpan WorkingStart
@@ -30,6 +30,7 @@ namespace UndoRedoExtensions
                     _workingStart = value;
                     OnPropertyChanged();
                     RebuildRowsFromWindow();
+                    RebuildWorkingTimeOptions();
                 }
             }
         }
@@ -45,6 +46,7 @@ namespace UndoRedoExtensions
                     _workingEnd = value;
                     OnPropertyChanged();
                     RebuildRowsFromWindow();
+                    RebuildWorkingTimeOptions();
                 }
             }
         }
@@ -72,6 +74,9 @@ namespace UndoRedoExtensions
         // 追加：循環防止フラグ
         private bool _isBuildingSummary = false; // Rows -> SummaryText へまとめ直し中か？
 
+        private bool _isInternalEdit = false;  // VM内部の連動更新中フラグ
+
+
         public ObservableCollection<RowData> CompressedRows { get; } = new();
 
         private bool _isSummaryEmpty = true;
@@ -89,6 +94,8 @@ namespace UndoRedoExtensions
             }
         }
 
+        public ObservableCollection<TimeSpan> WorkingTimeOptions { get; } = new();              // ★追加：勤務時間の候補
+
 
         public MainViewModel()
         {
@@ -96,6 +103,7 @@ namespace UndoRedoExtensions
                 TimeOptions.Add(t);
 
             RebuildRowsFromWindow(); // 初期 8:00–19:00 で構築（23 行）
+            RebuildWorkingTimeOptions();       // ★追加：勤務時間の候補も初期化
         }
 
         private void RebuildRowsFromWindow()
@@ -120,28 +128,43 @@ namespace UndoRedoExtensions
             UpdateSummary();
         }
 
+        private void RebuildWorkingTimeOptions()
+        {
+            WorkingTimeOptions.Clear();
+            // 例：開始～終了まで 30 分刻み（End ちょうども含める）
+            for (var t = WorkingStart; t <= WorkingEnd; t += Step)
+                WorkingTimeOptions.Add(t);
+        }
+
         private void Row_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            if (_isInternalEdit) return; // 連動更新の再帰を防止
+
             if (sender is not RowData row) { UpdateSummary(); return; }
             var idx = Rows.IndexOf(row);
             if (idx < 0) { UpdateSummary(); return; }
 
             if (e.PropertyName == nameof(RowData.Start))
             {
-                // Start を 30分刻みに揃え、End を Start+30 に
                 row.Start = Snap(row.Start);
-                row.End = Min(row.Start + Step, WorkingEnd);
-                ReflowFrom(idx + 1, row.End);
+                if (row.End <= row.Start)
+                    row.End = Min(row.Start + Step, WorkingEnd);
+
+                // ※今回の仕様では Start 変更時は何もしない（必要なら前行のEndを合わせる処理を追加可）
             }
             else if (e.PropertyName == nameof(RowData.End))
             {
                 row.End = Snap(row.End);
-                if (row.End <= row.Start) row.End = Min(row.Start + Step, WorkingEnd);
-                ReflowFrom(idx + 1, row.End);
+                if (row.End <= row.Start)
+                    row.End = Min(row.Start + Step, WorkingEnd);
+
+                // ★ ここがポイント：次行の Start を合わせる
+                AlignNextRowStart(idx);
             }
-            // Text 変更時も Summary 更新
+
             UpdateSummary();
         }
+
 
         private void ReflowFrom(int startIndex, TimeSpan anchorStart)
         {
@@ -368,6 +391,52 @@ namespace UndoRedoExtensions
             }
             FlushBlock();
         }
+
+        private void AlignNextRowStart(int idx)
+        {
+            if (idx < 0 || idx >= Rows.Count - 1) return;
+
+            var cur = Rows[idx];
+            var next = Rows[idx + 1];
+
+            // 次行の Start を現在行の End に合わせる
+            var newStart = Snap(cur.End);
+            if (next.Start != newStart)
+            {
+                _isInternalEdit = true;
+                try
+                {
+                    next.Start = newStart;
+
+                    // 安全策：もし End <= Start になってしまったら、少なくとも Step だけ確保
+                    if (next.End <= next.Start)
+                    {
+                        next.End = Min(next.Start + Step, WorkingEnd);
+                    }
+                }
+                finally
+                {
+                    _isInternalEdit = false;
+                }
+            }
+        }
+
+        public void InsertRowAfter(RowData anchor, TimeSpan start, TimeSpan end, string text)
+        {
+            start = Snap(start);
+            end = Snap(end);
+            if (end <= start) end = start + TimeSpan.FromMinutes(30);
+
+            var idx = Rows.IndexOf(anchor);
+            if (idx < 0) idx = Rows.Count - 1;
+
+            var newRow = new RowData { Start = start, End = end, Text = text };
+            newRow.PropertyChanged += Row_PropertyChanged; // 既存の更新連動を効かせる:contentReference[oaicite:3]{index=3}:contentReference[oaicite:4]{index=4}
+            Rows.Insert(idx + 1, newRow);
+            UpdateSummary(); // 右側まとめも更新:contentReference[oaicite:5]{index=5}
+        }
+
+
 
         // クリップボードにコピー（TextBlockは選択不可のため）
         public void CopyAllToClipboard() => Clipboard.SetText(SummaryText);
